@@ -1,3 +1,3 @@
 # Kurssitiedot
 
-## Tehtävät 1.1 - 1.5
+Tehtävät 1.1 - 1.5
