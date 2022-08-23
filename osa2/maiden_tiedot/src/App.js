@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 
 const App = () => {
@@ -17,6 +17,13 @@ const App = () => {
     setCountryFilter(value);
   };
 
+  const handleShowCountry = (event) => {
+    event.preventDefault();
+    const { innerText } = event.target.firstChild;
+
+    setCountryFilter(innerText);
+  };
+
   const countries = countryData.filter((country) => {
     const { common: countryName } = country.name;
     return countryName.toLowerCase().includes(countryFilter.toLowerCase());
@@ -26,17 +33,21 @@ const App = () => {
 
   if (countries.length <= 10) {
     countryList = countries.map((country) => (
-      <p key={country.name.official}>{country.name.common}</p>
+      <form onSubmit={handleShowCountry} key={country.name.official}>
+        <p>{country.name.common}</p>
+        <button type="submit">show</button>
+      </form>
     ));
   }
 
   if (countries.length === 1) {
     countryList = countries.map((country) => {
-      const languages = Object.keys(country.languages).forEach((key) => {
-        return <li key={key}>{country.languages[key]}</li>;
+      const languages = Object.values(country.languages).map((language) => {
+        return <li key={language}>{language}</li>;
       });
+
       return (
-        <div>
+        <div key={country.name.common}>
           <h2>{country.name.common}</h2>
           <p>Capital: {country.capital[0]}</p>
           <p>Area: {country.area}</p>
