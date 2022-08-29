@@ -61,13 +61,43 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault();
 
-    const nameExists = persons.find(
+    const existingName = persons.find(
       (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
 
-    if (nameExists) {
-      alert(`${newName} is already added to phonebook`);
-      return;
+    if (existingName) {
+      if (existingName && existingName.number === newNumber) {
+        alert(`${newName} with the same number is already in your phonebook!`);
+        return;
+      } else if (existingName.number !== newNumber) {
+        const confirmation = window.confirm(
+          `${newName} is already added to phonebook and you have typed a new number for this person. Want to change the number?`
+        );
+        if (!confirmation) return;
+
+        const { id, name } = existingName;
+
+        const updatedPerson = { ...existingName, number: newNumber };
+
+        const newPersons = persons.map((person) => {
+          if (person.id === id) {
+            return {
+              ...person,
+              number: newNumber,
+            };
+          } else {
+            return person;
+          }
+        });
+
+        personService.updatePerson(id, updatedPerson).then((status) => {
+          if (status === 200) {
+            setPersons(newPersons);
+            alert(`${name}'s phone number successfully updated!`);
+            return;
+          }
+        });
+      }
     }
 
     const newPerson = {
