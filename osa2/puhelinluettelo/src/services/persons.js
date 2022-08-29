@@ -15,7 +15,15 @@ const createPerson = (newPerson) => {
   });
 };
 
+const deletePerson = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => {
+    return response.status;
+  });
+};
+
 export default {
   getAll,
   createPerson,
+  deletePerson,
 };

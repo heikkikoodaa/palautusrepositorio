@@ -41,6 +41,23 @@ const App = () => {
     setFilterName(value);
   };
 
+  const deletePerson = (id) => {
+    const deletedPerson = persons.find((person) => person.id === id);
+    const { name } = deletedPerson;
+    const confirmation = window.confirm(`Delete ${name}?`);
+
+    if (!confirmation) return;
+
+    const remainingPersons = persons.filter((person) => person.id !== id);
+
+    personService.deletePerson(id).then((status) => {
+      setPersons(remainingPersons);
+      if (status === 200) {
+        alert(`${name} was deleted from the phonebook!`);
+      }
+    });
+  };
+
   const addName = (event) => {
     event.preventDefault();
 
@@ -77,7 +94,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h3>Numbers</h3>
-      <Persons personData={showPersons} />
+      <Persons personData={showPersons} deletePerson={deletePerson} />
     </div>
   );
 };
