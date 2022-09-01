@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
+import Notification from './Notification';
 import personService from './services/persons';
 
 const App = () => {
@@ -10,6 +11,10 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterName, setFilterName] = useState('');
+  const [notification, setNotification] = useState({
+    message: '',
+    type: '',
+  });
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -27,6 +32,15 @@ const App = () => {
     const { value } = event.target;
 
     setNewName(value);
+  };
+
+  const hideNotification = (visibleSeconds) => {
+    return setTimeout(() => {
+      setNotification({
+        message: '',
+        type: '',
+      });
+    }, 1000 * visibleSeconds);
   };
 
   const handleNumberChange = (event) => {
@@ -53,7 +67,10 @@ const App = () => {
     personService.deletePerson(id).then((status) => {
       setPersons(remainingPersons);
       if (status === 200) {
-        alert(`${name} was deleted from the phonebook!`);
+        setNotification({
+          message: `${name} was deleted from the phonebook!`,
+          type: 'success',
+        });
       }
     });
   };
@@ -67,7 +84,11 @@ const App = () => {
 
     if (existingName) {
       if (existingName && existingName.number === newNumber) {
-        alert(`${newName} with the same number is already in your phonebook!`);
+        setNotification({
+          message: `${newName} with the same number is already in your phonebook!`,
+          type: 'error',
+        });
+        hideNotification(5);
         return;
       } else if (existingName.number !== newNumber) {
         const confirmation = window.confirm(
@@ -93,10 +114,16 @@ const App = () => {
         personService.updatePerson(id, updatedPerson).then((status) => {
           if (status === 200) {
             setPersons(newPersons);
-            alert(`${name}'s phone number successfully updated!`);
-            return;
+            setNotification({
+              message: `${name}'s phone number successfully updated!`,
+              type: 'success',
+            });
+            setNewName('');
+            setNewNumber('');
+            hideNotification(5);
           }
         });
+        return;
       }
     }
 
@@ -107,6 +134,10 @@ const App = () => {
 
     personService.createPerson(newPerson).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
+      setNotification({
+        message: `Added ${newName}`,
+        type: 'success',
+      });
       setNewName('');
       setNewNumber('');
     });
@@ -115,6 +146,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter filteredName={filterName} onChange={handleFilterChange} />
       <PersonForm
         onChange={addName}
