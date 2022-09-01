@@ -71,6 +71,7 @@ const App = () => {
           message: `${name} was deleted from the phonebook!`,
           type: 'success',
         });
+        hideNotification(5);
       }
     });
   };
@@ -111,18 +112,29 @@ const App = () => {
           }
         });
 
-        personService.updatePerson(id, updatedPerson).then((status) => {
-          if (status === 200) {
-            setPersons(newPersons);
-            setNotification({
-              message: `${name}'s phone number successfully updated!`,
-              type: 'success',
-            });
-            setNewName('');
-            setNewNumber('');
-            hideNotification(5);
-          }
-        });
+        personService
+          .updatePerson(id, updatedPerson)
+          .then((status) => {
+            if (status === 200) {
+              setPersons(newPersons);
+              setNotification({
+                message: `${name}'s phone number successfully updated!`,
+                type: 'success',
+              });
+              setNewName('');
+              setNewNumber('');
+              hideNotification(5);
+            }
+          })
+          .catch((error) => {
+            if (error.code === 'ERR_BAD_REQUEST') {
+              setNotification({
+                message: `${name} has already been removed from the phonebook!`,
+                type: 'error',
+              });
+              hideNotification(5);
+            }
+          });
         return;
       }
     }
@@ -138,6 +150,7 @@ const App = () => {
         message: `Added ${newName}`,
         type: 'success',
       });
+      hideNotification(5);
       setNewName('');
       setNewNumber('');
     });

@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Yuki Mizuki",
-      "number": "041-1234567",
-      "id": 1
-    },
-    {
-      "name": "Miseki Nakamura",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Yosuke Kawasaki",
       "number": "12-43-234345",
       "id": 3
@@ -29,6 +19,11 @@
       "name": "Naoko Murasaki",
       "number": "041-5147842",
       "id": 6
+    },
+    {
+      "name": "Miseki Nakamura",
+      "number": "39-44-5323523",
+      "id": 7
     }
   ]
 }
