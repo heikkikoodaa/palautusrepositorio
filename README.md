@@ -1,5 +1,5 @@
 # palautusrepositorio
-Repositorio Full Stack Open 2022 kurssitehtäviä varten. Kaikki tehtävät löytyvät tämän repositorion alta ja jokainen osio tulee omaan kansioonsa.
+Repositorio Full Stack Open kurssitehtäviä varten. Kaikki tehtävät löytyvät tämän repositorion alta ja jokainen osio tulee omaan kansioonsa.
 
 **Alla vielä kuvaus rakenteesta varmuuden vuoksi**
 
