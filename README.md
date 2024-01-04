@@ -5,7 +5,7 @@ Repositorio Full Stack Open kurssitehtäviä varten. Kaikki tehtävät löytyvä
 
 - Same in English below -
 
-A repository for Full Stack Open 2022 course tasks. All of the tasks can be found under this repository and each part will find its way to its own folder.
+A repository for Full Stack Open course tasks. All of the tasks can be found under this repository and each part will find its way to its own folder.
 
 **A diagram of the directory tree can be found below**
 
